@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'Spline Sans';
+    font-style: normal;
+    src: url('../fonts/SplineSans.woff') format('woff');
+}
+
+body,
+html {
+    font-family: 'Spline Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    min-height: 100vh;
+    scroll-behavior: smooth;
+}
