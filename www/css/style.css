@@ -6,6 +6,7 @@
 
 body,
 html {
+    background-image: url('../img/bg.svg');
     font-family: 'Spline Sans', sans-serif;
     margin: 0;
     padding: 0;
