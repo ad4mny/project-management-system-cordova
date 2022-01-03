@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <title>Flow: Manage Project & Task</title>
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/custom-bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body,
+        html {
+            background-image: url('img/background-app.svg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Appbar -->
+    <div class="bg-primary py-2 sticky-top">
+        <div class="d-flex justify-content-center align-items-center">
+            <img src="img/logo-main.png" class="img-fluid me-1" width="25">
+            <h1 class="fw-bold text-white mb-0">
+                Flow
+            </h1>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="bg-white fixed-bottom d-block d-lg-none d-inline-flex shadow-sm m-3" style="border-radius: 1em;">
+        <div class="p-2 flex-fill">
+            <a class="btn" href="workspace.html">
+                <i class="fas fa-align-left fa-fw fa-lg"></i>
+            </a>
+        </div>
+        <div class="p-2 flex-fill">
+            <a class="btn" href="assigned.html">
+                <i class="fas fa-tasks fa-fw fa-lg"></i>
+            </a>
+        </div>
+        <div class="p-2 flex-fill">
+            <a class="btn text-info" href="#">
+                <i class="fas fa-users fa-fw fa-lg"></i>
+            </a>
+        </div>
+        <div class="p-2 flex-fill">
+            <a href="profile.html" class="btn ">
+                <i class="fas fa-user-circle fa-fw fa-lg"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container mb-5 pb-5" id="main-container">
+        <div class="row p-2">
+            <div class="col">
+                <h1 class="text-white display-4 fw-bold">Team</h1>
+            </div>
+        </div>
+        <div class="row pb-2">
+            <div class="col d-flex flex-row justify-content-evenly">
+                <a class="text-decoration-none fw-bold text-white border-bottom border-4">Member</a>
+                <a class="text-decoration-none fw-bold text-white">Request</a>
+                <a class="text-decoration-none fw-bold text-white">Search</a>
+            </div>
+        </div>
+        <div class="row p-1 pb-2">
+            <div class="col">
+                <input class="form-control" placeholder="Search username" style="border-radius: 1em;">
+            </div>
+        </div>
+        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">
+            <div class="col">
+                <p class="mb-0">Wan Hamas Mustaqim</p>
+            </div>
+            <div class="col-auto">
+                <a> <i class="fas fa-times fa-fw text-danger"></i></a>
+            </div>
+        </div>
+        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">
+            <div class="col">
+                <p class="mb-0">Adam Aiman Zulkornain</p>
+            </div>
+            <div class="col-auto">
+                <a> <i class="fas fa-times fa-fw text-danger"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notice Placeholder -->
+    <div class=" position-absolute bottom-0 m-3" id="notice-container">
+    </div>
+
+    <!-- Loading Placeholder -->
+    <div id="progress-container"
+        class="text-center w-auto p-4 position-absolute top-50 start-50 translate-middle justify-content-center"
+        style="display: none;">
+        <img src="img/load.gif" height="70" width="70"><br>
+    </div>
+
+    <!-- Script -->
+    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/ajax/workspace.js"></script>
+
+</body>
+
+</html>
