@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <title>Flow: Manage Project & Task</title>
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/custom-bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Welcome Content -->
+    <div class="container d-flex flex-column justify-content-center align-items-center vh-100" id="welcome-container">
+        <div class="d-flex justify-content-center align-items-center">
+            <img src="img/logo-main.png" class="img-fluid" width="50">
+            <h1 class="display-1 fw-bold text-primary">
+                Flow
+            </h1>
+        </div>
+        <div class="text-center pb-4">
+            <p class="text-muted">— manage your workflow and project easily</p>
+        </div>
+        <div class="text-center py-2">
+            <button type="button" class="btn btn-primary get-started-link">Get Started</button>
+        </div>
+    </div>
+
+    <!-- Create Account Form -->
+    <div class="container d-flex flex-column  justify-content-center align-items-center vh-100 d-none"
+        id="create-container">
+        <div class="d-flex justify-content-center align-items-center">
+            <img src="img/logo-main.png" class="img-fluid" width="50">
+            <h1 class="display-1 fw-bold text-primary">
+                Flow
+            </h1>
+        </div>
+        <div class="text-center pb-4">
+            <p class="text-muted">— manage your workflow and project easily</p>
+        </div>
+        <form action="" method="post" class="row g-2 p-4 bg-white shadow" id="create-form" style="border-radius: 2em;">
+            <div class="col-12 text-center">
+                <p class="text-muted">Create a New Account</p>
+            </div>
+            <div class="col-12 text-center">
+                <input type="text" class="form-control" name="firstName" placeholder="Your first name" required>
+            </div>
+            <div class="col-12 text-center">
+                <input type="text" class="form-control" name="lastName" placeholder="Your last name" required>
+            </div>
+            <div class="col-12 text-center">
+                <input type="text" class="form-control" name="username" placeholder="Your username" required>
+            </div>
+            <div class="col-12 text-center">
+                <input type="password" class="form-control" name="password" placeholder="Your password" required>
+            </div>
+            <div class="col-12 text-center">
+                <input type="password" class="form-control" name="c_password" placeholder="Confirm password" required>
+            </div>
+            <div class="col-12 text-center py-2">
+                <button type="submit" class="btn btn-outline-primary" name="submit">Create Account</button>
+            </div>
+            <div class="col-12 text-center pt-2 border-top">
+                <small class="text-muted fw-light">
+                    Already have an account? <a href="#" class="login-link">Login</a> instead.
+                </small>
+            </div>
+        </form>
+    </div>
+
+    <!-- Login Form -->
+    <div class="container d-flex flex-column justify-content-center align-items-center vh-100 d-none"
+        id="login-container">
+        <div class="d-flex justify-content-center align-items-center">
+            <img src="img/logo-main.png" class="img-fluid" width="50">
+            <h1 class="display-1 fw-bold text-primary">
+                Flow
+            </h1>
+        </div>
+        <div class="text-center pb-4 ">
+            <p class="text-muted">— manage your workflow and project easily</p>
+        </div>
+        <form action="" method="post" class="row g-2 p-4 bg-white shadow" id="login-form" style="border-radius: 2em;">
+
+            <div class="col-12">
+                <input type="text" class="form-control" name="username" placeholder="Your username" required>
+            </div>
+            <div class="col-12">
+                <input type="password" class="form-control" name="password" placeholder="Your password" required>
+            </div>
+            <div class="col-12 text-center py-2">
+                <button type="submit" class="btn btn-primary" name="submit">Login</button>
+            </div>
+            <div class="col-12 text-center pt-2 border-top">
+                <small class="text-muted fw-light">
+                    Create an account <a href="#" class="create-link">here</a>.
+                </small>
+            </div>
+        </form>
+    </div>
+
+    <!-- Notice Placeholder -->
+    <div class="position-absolute bottom-0 m-3" id="notice-container"></div>
+
+    <!-- Progress Placeholder -->
+    <div id="progress-container"
+        class="text-center w-auto p-4 position-absolute top-50 start-50 translate-middle justify-content-center"
+        style="display: none;">
+        <img src="img/load.gif" height="70" width="70"><br>
+    </div>
+
+    <!-- Script -->
+    <script type="text/javascript">
+        window.addEventListener('load', (event) => {
+
+            // Check user login credentials token
+            if (token != null) {
+                location.replace('workspace.html');
+            }
+
+        });
+    </script>
+
+    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/ajax/index.js"></script>
+
+</body>
+
+</html>
