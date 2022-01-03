@@ -3,7 +3,7 @@ var url = 'http://localhost/project-management-system/';
 
 var logout = function () {
 
-    localStorage.clear();
+    localStorage.clear('token');
     location.replace('index.html');
 
 };

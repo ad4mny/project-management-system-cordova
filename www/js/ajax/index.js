@@ -33,7 +33,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: url + 'api/login',
+            url: url + 'login',
             data: formData,
             processData: false,
             contentType: false,
@@ -72,7 +72,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: url + 'api/register',
+            url: url + 'register',
             data: formData,
             processData: false,
             contentType: false,
