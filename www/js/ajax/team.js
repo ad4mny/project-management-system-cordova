@@ -120,11 +120,59 @@ $(document).ready(function () {
     });
 });
 
+// Search member
+$(document).on('keyup', '#search-input',
+    function () {
+        $.ajax({
+            type: 'POST',
+            url: url + "searchUser",
+            data: {
+                query: this.value
+            },
+            dataType: 'JSON',
+            beforeSend: function () {
+                $('#progress-container').show();
+            },
+            success: function (data) {
+                $('#search-display').html('');
+
+                if (data != false) {
+                    for (var i = 0; i < data.length; i++) {
+                        $('#search-display').append(
+                            '        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">' +
+                            '            <div class="col">' +
+                            '                <p class="mb-0 text-capitalize">' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
+                            '            </div>' +
+                            '            <div class="col-auto">' +
+                            '                <a href="#" class="add-btn me-2" id="' + data[i].userID + '"> <i class="fas fa-plus fa-fw text-primary"></i></a>' +
+                            '            </div>' +
+                            '        </div>'
+                        );
+                    }
+                } else {
+                    $('#search-display').append(
+                        '        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">' +
+                        '            <div class="col text-center">' +
+                        '                <p class="mb-0">No user found.</p>' +
+                        '            </div>' +
+                        '        </div>'
+                    );
+                }
+            },
+            error: function () {
+                $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
+            },
+            complete: function () {
+                $('#progress-container').hide();
+            }
+
+        });
+    }
+);
+
 // Remove member/ member request
 $(document).on('click', '.remove-btn',
     function () {
-
-        // Remove member request list
         $.ajax({
             type: 'POST',
             url: url + "removeMember",
@@ -148,7 +196,6 @@ $(document).on('click', '.remove-btn',
             complete: function () {
                 $('#progress-container').hide();
             }
-
         });
     }
 );
@@ -156,8 +203,6 @@ $(document).on('click', '.remove-btn',
 // Approve member request
 $(document).on('click', '.approve-btn',
     function () {
-
-        // Remove member request list
         $.ajax({
             type: 'POST',
             url: url + "approveMember",
@@ -182,7 +227,37 @@ $(document).on('click', '.approve-btn',
             complete: function () {
                 $('#progress-container').hide();
             }
+        });
+    }
+);
 
+// Add member
+$(document).on('click', '.add-btn',
+    function () {
+        $.ajax({
+            type: 'POST',
+            url: url + "addMember",
+            data: {
+                userID: this.id,
+                teamID: token.teamID
+            },
+            dataType: 'JSON',
+            beforeSend: function () {
+                $('#progress-container').show();
+            },
+            success: function (data) {
+                if (data != false) {
+                    location.reload();
+                } else {
+                    alert('Failed to add member.');
+                }
+            },
+            error: function () {
+                $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
+            },
+            complete: function () {
+                $('#progress-container').hide();
+            }
         });
     }
 );
