@@ -8,11 +8,8 @@ $(document).ready(function () {
 
     if (projectID != null) {
 
-        $("#main-container").slideUp(300, function () {
-            $("#main-container").addClass('d-none');
-            $("#view-container").fadeIn(300);
-            $("#view-container").removeClass('d-none');
-        });
+        $("#main-container").addClass('d-none');
+        $("#view-container").removeClass('d-none');
 
         // Get workspace view
         $.ajax({
@@ -88,7 +85,7 @@ $(document).ready(function () {
 
             },
             error: function () {
-                $('#display').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
+                $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
             },
             complete: function () {
                 $('#progress-container').hide();
@@ -168,7 +165,7 @@ $(document).ready(function () {
             }
         },
         error: function () {
-            $('#display').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
+            $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
         },
         complete: function () {
             $('#progress-container').hide();
@@ -195,13 +192,13 @@ $(document).ready(function () {
                     );
                 }
             } else {
-                $('#select_member').append(
+                $('#project-member-list').append(
                     '<option selected disabled>No available member to add</option>'
                 );
             }
         },
         error: function () {
-            $('#display').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
+            $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
         },
         complete: function () {
             $('#progress-container').hide();

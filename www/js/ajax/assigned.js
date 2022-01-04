@@ -59,7 +59,7 @@ $(document).ready(function () {
             }
         },
         error: function () {
-            $('#display').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
+            $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
         },
         complete: function () {
             $('#progress-container').hide();
