@@ -42,15 +42,32 @@ $(document).ready(function () {
             $('#progress-container').show();
         },
         success: function (data) {
+
             if (data != false) {
-                for (var i = 0; i < data.length; i++) {
+                for (var i = 0; i < data[0].length; i++) {
+                    var buttons = '';
+                    var owner = '';
+
+                    if (data.userID == token.userID) {
+                        buttons =
+                            '<a href="#" class="remove-btn" id="' + data[0][i].userID + '">' +
+                            '<i class="fas fa-times fa-fw text-danger"></i></a>';
+                    }
+
+                    if (data.userID == data[0][i].userID) {
+                        owner =
+                            '<a href="#" class="me-2">' +
+                            '<i class="fas fa-crown fa-fw text-warning"></i></a>';
+                    }
+
                     $('#member-container').append(
-                        '        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">' +
+                        '        <div class="row m-1 p-2 bg-white shadow-sm" style="border-radius: 1em;">' +
                         '            <div class="col">' +
-                        '                <p class="mb-0 text-capitalize">' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
+                        '                <p class="mb-0 text-capitalize">' + data[0][i].firstName + ' ' + data[0][i].lastName + '</p>' +
                         '            </div>' +
                         '            <div class="col-auto">' +
-                        '                <a href="#" class="remove-btn" id="' + data[i].userID + '"> <i class="fas fa-times fa-fw text-danger"></i></a>' +
+                        owner +
+                        buttons +
                         '            </div>' +
                         '        </div>'
                     );
@@ -86,16 +103,34 @@ $(document).ready(function () {
             $('#progress-container').show();
         },
         success: function (data) {
+            var buttons = '';
+            var owner = '';
+
             if (data != false) {
-                for (var i = 0; i < data.length; i++) {
+                for (var i = 0; i < data[0].length; i++) {
+
+                    if (data.userID == token.userID) {
+                        buttons =
+                            '<a href="#" class="approve-btn me-2" id="' + data[0][i].userID + '">' +
+                            '<i class="fas fa-check fa-fw text-info"></i></a>' +
+                            '<a href="#" class="remove-btn" id="' + data[0][i].userID + '">' +
+                            '<i class="fas fa-times fa-fw text-danger"></i></a>';
+                    }
+
+                    if (data.userID == data[0][i].userID) {
+                        owner =
+                            '<a href="#" class="me-2">' +
+                            '<i class="fas fa-crown fa-fw text-warning"></i></a>';
+                    }
+
                     $('#request-container').append(
-                        '        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">' +
+                        '        <div class="row m-1 p-2 bg-white shadow-sm" style="border-radius: 1em;">' +
                         '            <div class="col">' +
                         '                <p class="mb-0 text-capitalize">' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
                         '            </div>' +
                         '            <div class="col-auto">' +
-                        '                <a href="#" class="approve-btn me-2" id="' + data[i].userID + '"> <i class="fas fa-check fa-fw text-info"></i></a>' +
-                        '                <a href="#" class="remove-btn" id="' + data[i].userID + '"> <i class="fas fa-times fa-fw text-danger"></i></a>' +
+                        owner +
+                        buttons +
                         '            </div>' +
                         '        </div>'
                     );

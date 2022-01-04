@@ -125,7 +125,7 @@ $(document).ready(function () {
         },
         success: function (data) {
 
-            if (data != false) {
+            if (data['project'] != false) {
 
                 var members = '';
 
@@ -185,10 +185,11 @@ $(document).ready(function () {
             $('#progress-container').show();
         },
         success: function (data) {
+    
             if (data != false) {
-                for (var i = 0; i < data.length; i++) {
+                for (var i = 0; i < data[0].length; i++) {
                     $('#project-member-list').append(
-                        '<option value="' + data[i].firstName + '" id="' + data[i].userID + '">' + data[i].firstName + '</option>'
+                        '<option value="' + data[0][i].firstName + '" id="' + data[0][i].userID + '">' + data[0][i].firstName + '</option>'
                     );
                 }
             } else {
