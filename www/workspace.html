@@ -21,15 +21,6 @@
 </head>
 
 <body>
-    <!-- Appbar -->
-    <div class="bg-primary py-2 sticky-top">
-        <div class="d-flex justify-content-center align-items-center">
-            <img src="img/logo-main.png" class="img-fluid me-1" width="25">
-            <h1 class="fw-bold text-white mb-0">
-                Flow
-            </h1>
-        </div>
-    </div>
 
     <!-- Navigation -->
     <div class="bg-white fixed-bottom d-block d-lg-none d-inline-flex shadow-sm m-3" style="border-radius: 1em;">
@@ -55,34 +46,90 @@
         </div>
     </div>
 
-    <!-- Content -->
-    <div class="container mb-5 pb-5" id="main-container">
-        <div class="row p-2">
-            <div class="col">
-                <h1 class="text-white display-4 fw-bold">Workspace</h1>
-            </div>
-            <div class="col m-auto text-end">
-                <button class="btn " style="border-radius: 5em;">
-                    <i class="fas fa-plus fa-fw text-light"></i>
-                </button>
+    <div class="" id="main-container">
+        <!-- Appbar -->
+        <div class="bg-primary py-2 sticky-top">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="img/logo-main.png" class="img-fluid me-1" width="25">
+                <h1 class="fw-bold text-white mb-0">
+                    Flow
+                </h1>
             </div>
         </div>
-        <div class="row m-1 py-3 px-1 bg-white shadow-sm" style="border-radius: 1em;">
-            <div class="col-12">
-                <p class="mb-0">DNS Assignment 1</p>
+
+        <!-- Content -->
+        <div class="container mb-5 pb-5">
+            <div class="row p-2">
+                <div class="col">
+                    <h1 class="text-white display-4 fw-bold">Workspace</h1>
+                </div>
+                <div class="col m-auto text-end">
+                    <button class="btn add-workspace-btn">
+                        <i class="fas fa-plus fa-fw text-light"></i>
+                    </button>
+                </div>
             </div>
-            <div class="col-12">
-                <small class="text-muted">1/2/2022 - 12/2/2022</small>
-            </div>
-            <div class="col-auto d-flex flex-row flex-wrap pt-3">
-                <small class="bg-info text-white px-3 py-1 me-1 mb-1 mb-0" style="border-radius: 2em;">Naj</small>
-                <small class="bg-info text-white px-3 py-1 me-1 mb-1  mb-0" style="border-radius: 2em;">Aiman</small>
-                <small class="bg-info text-white px-3 py-1 me-1 mb-1  mb-0" style="border-radius: 2em;">Jibam</small>
-                <small class="bg-info text-white px-3 py-1 me-1 mb-1  mb-0" style="border-radius: 2em;">Hamas</small>
-                <small class="bg-info text-white px-3 py-1 me-1 mb-1  mb-0" style="border-radius: 2em;">Joe</small>
+            <div id="workspace-container">
+
             </div>
         </div>
     </div>
+
+    <div class="d-none" id="second-container">
+        <!-- Appbar -->
+        <div class="bg-primary py-2 sticky-top">
+            <button class="btn add-btn text-white back-btn">
+                <i class="fas fa-chevron-left fa-fw"></i> Back
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="container mb-5 pb-5">
+            <form action="" method="post" id="project-form">
+                <div class="row m-1 py-3 px-1 bg-white shadow-sm g-3" style="border-radius: 1em;">
+                    <div class="col-12">
+                        <input type="text" class="form-control p-2 px-3" name="projectName" placeholder="Project title"
+                            style="border-radius: 1em;" required>
+                    </div>
+                    <div class="col-12">
+                        <textarea class="form-control p-2 px-3" max="150" name="projectDesc" rows="6"
+                            placeholder="Project description" style="border-radius: 1em;" required></textarea>
+                    </div>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="startDate" style="border-radius: 1em;" required>
+                    </div>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="endDate" style="border-radius: 1em;" required>
+                    </div>
+                    <div class="col-auto d-flex flex-row flex-wrap" id="project-member">
+
+                    </div>
+                    <div class="col-12">
+                        <select class="form-select text-capitalize" style="border-radius: 1em;" id="project-member-list"
+                            required>
+                            <option id="0" value="" disabled selected>Add project team members</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="task-display">
+
+                </div>
+                <div class="row py-3" style="border-radius: 1em;">
+                    <div class="col-6 text-center">
+                        <button type="button" class="btn btn-outline-primary add-task-btn" style="border-radius: 1em;">
+                            <i class="fas fa-plus fa-fw fa-sm"></i> Add Task
+                        </button>
+                    </div>
+                    <div class="col-6 text-center">
+                        <button type="submit" class="btn btn-primary" style="border-radius: 1em;">
+                            <i class="fas fa-chevron-right fa-fw fa-sm"></i> Create
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 
     <!-- Notice Placeholder -->
     <div class=" position-absolute bottom-0 m-3" id="notice-container">
