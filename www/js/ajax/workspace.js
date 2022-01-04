@@ -1,8 +1,102 @@
 var projectMember = [];
 var taskMember = [];
 var tasks = 0;
+var params = new URL(window.location.href);
+var projectID = params.searchParams.get("id");
 
 $(document).ready(function () {
+
+    if (projectID != null) {
+
+        $("#main-container").slideUp(300, function () {
+            $("#main-container").addClass('d-none');
+            $("#view-container").fadeIn(300);
+            $("#view-container").removeClass('d-none');
+        });
+
+        // Get workspace view
+        $.ajax({
+            type: 'POST',
+            url: url + "viewWorkspace",
+            data: {
+                projectID: projectID
+            },
+            dataType: 'JSON',
+            beforeSend: function () {
+                $('#progress-container').show();
+            },
+            success: function (data) {
+
+                if (data != false) {
+
+                    var projectMember = '';
+
+                    for (var i = 0; i < data[1].length; i++) {
+                        projectMember +=
+                            '<span class=" bg-info text-capitalize fw-bold text-white px-3 py-2 me-1 mb-1 " style="border-radius: 2em;">' +
+                            data[1][i].firstName +
+                            '</span>';
+                    }
+
+                    for (var i = 0; i < data[0].length; i++) {
+                        $('#display').append(
+                            '            <div class="row m-1 p-2 bg-white shadow-sm g-3 text-dark" style="border-radius: 1em;">' +
+                            '                <div class="col-12">' +
+                            '                    <h1 class="fw-bold mb-0">' + data[0][i].projectName + '</h1>' +
+                            '                </div>' +
+                            '                <div class="col-12">' +
+                            '                    <p class="text-muted mb-0">' + data[0][i].projectStartDate + ' <i' +
+                            '                            class="fas fa-chevron-right fa-fw fa-sm"></i> ' + data[0][i].projectEndDate + '</p>' +
+                            '                </div>' +
+                            '                <div class="col-12">' +
+                            '                    <p class="">' + data[0][i].projectDesc + '</p>' +
+                            '                </div>' +
+                            '                <div class="col-auto d-flex flex-row flex-wrap" id="projectMember">' +
+                            projectMember +
+                            '                </div>' +
+                            '            </div>'
+                        );
+                    }
+
+
+
+                    for (var i = 0; i < data[2].length; i++) {
+                        var taskMember = '';
+
+                        for (var x = 0; x < data[3].length; x++) {
+                            if (data[3][x].taskID == data[2][i].taskID) {
+                                taskMember +=
+                                    '<span class=" bg-info text-capitalize fw-bold text-white px-3 py-2 me-1 mb-1 " style="border-radius: 2em;">' +
+                                    data[3][x].firstName +
+                                    '</span>';
+                            }
+                        }
+
+                        $('#display').append(
+                            '                <div class="row m-1 mt-3 p-2 bg-white shadow-sm g-3" style="border-radius: 1em;">' +
+                            '                    <div class="col-12">' +
+                            '                        <h3 class="fw-bold mb-0" id="taskName">' + data[2][i].taskName + '</h2>' +
+                            '                    </div>' +
+                            '                    <div class="col-auto d-flex flex-row flex-wrap" id="taskMember">' +
+                            taskMember +
+                            '                    </div>' +
+                            '                </div>'
+                        );
+                    }
+
+                }
+
+            },
+            error: function () {
+                $('#display').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
+            },
+            complete: function () {
+                $('#progress-container').hide();
+            }
+
+        });
+
+    }
 
     $(".add-workspace-btn").click(function () {
         $("#main-container").slideUp(300, function () {
@@ -35,7 +129,7 @@ $(document).ready(function () {
         success: function (data) {
 
             if (data != false) {
-                
+
                 var members = '';
 
                 for (var i = 0; i < data[0].length; i++) {
@@ -47,17 +141,19 @@ $(document).ready(function () {
 
                 for (var i = 0; i < data['project'].length; i++) {
                     $('#workspace-container').append(
+                        '<a href="workspace.html?id=' + data['project'][i].projectID + '" class="text-decoration-none text-reset">' +
                         '                <div class="row m-1 py-3 px-1 bg-white shadow-sm" style="border-radius: 1em;">' +
                         '                    <div class="col-12">' +
                         '                        <p class="mb-0">' + data['project'][i].projectName + '</p>' +
                         '                    </div>' +
                         '                    <div class="col-12">' +
-                        '                        <small class="text-muted">' + data['project'][i].projectStartDate + ' - ' + data['project'][i].projectEndDate + '</small>' +
+                        '                        <small class="text-muted m-auto">' + data['project'][i].projectStartDate + ' <i class="fas fa-chevron-right fa-fw fa-xs"></i> ' + data['project'][i].projectEndDate + '</small>' +
                         '                    </div>' +
                         '                    <div class="col-auto d-flex flex-row flex-wrap pt-3">' +
                         members +
                         '                    </div>' +
-                        '                </div>'
+                        '                </div>' +
+                        '</a>'
                     );
                 }
 
