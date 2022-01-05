@@ -12,7 +12,7 @@ $(document).ready(function () {
             $('#progress-container').show();
         },
         success: function (data) {
-            console.log(data);
+
             if (data != false) {
 
                 for (var i = 0; i < data.length; i++) {

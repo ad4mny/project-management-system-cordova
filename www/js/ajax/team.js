@@ -62,7 +62,7 @@ $(document).ready(function () {
                                 '<i class="fas fa-crown fa-fw text-warning"></i></a>';
                         }
 
-                        $('#member-container').append(
+                        $('#member-display').append(
                             '        <div class="row m-1 p-2 bg-white shadow-sm" style="border-radius: 1em;">' +
                             '            <div class="col">' +
                             '                <p class="mb-0 text-capitalize">' + data[0][i].firstName + ' ' + data[0][i].lastName + '</p>' +
@@ -73,9 +73,14 @@ $(document).ready(function () {
                             '            </div>' +
                             '        </div>'
                         );
+
+                        // Checking team owner to display disband button
+                        if (token.userID != data[0][i].userID) {
+                            $('.disband-btn').removeClass('d-none');
+                        }
                     }
                 } else {
-                    $('#member-container').append(
+                    $('#member-display').append(
                         '        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">' +
                         '            <div class="col text-center">' +
                         '                <p class="mb-0">No member in the team yet.</p>' +
@@ -92,7 +97,7 @@ $(document).ready(function () {
             }
         });
     } else {
-        $('#member-container').append(
+        $('#member-display').append(
             '        <div class="row m-1 p-2" style="border-radius: 1em;">' +
             '            <div class="col text-center">' +
             '                <p class="text-white">Wait others to invite you to a team</p>' +
@@ -115,7 +120,7 @@ $(document).ready(function () {
             $('#progress-container').show();
         },
         success: function (data) {
-            console.log(data);
+
             if (data[0] != false) {
                 for (var i = 0; i < data[0].length; i++) {
                     var buttons = '';
@@ -332,6 +337,38 @@ $(document).on('click', '.create-btn',
                     location.reload();
                 } else {
                     alert('Failed to create team.');
+                }
+            },
+            error: function () {
+                $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
+            },
+            complete: function () {
+                $('#progress-container').hide();
+            }
+        });
+    }
+);
+
+// Create team
+$(document).on('click', '.disband-btn',
+    function () {
+        $.ajax({
+            type: 'POST',
+            url: url + "removeTeam",
+            data: {
+                teamID: token.teamID
+            },
+            dataType: 'JSON',
+            beforeSend: function () {
+                $('#progress-container').show();
+            },
+            success: function (data) {
+                if (data != null) {
+                    token.teamID = null;
+                    localStorage.setItem('token', JSON.stringify(token));
+                    location.reload();
+                } else {
+                    alert('Failed to disband team.');
                 }
             },
             error: function () {
