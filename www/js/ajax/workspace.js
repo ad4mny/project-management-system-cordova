@@ -35,6 +35,7 @@ $(document).ready(function () {
                             '</span>';
                     }
 
+                    // Project details print
                     for (var i = 0; i < data[0].length; i++) {
                         $('#display').append(
                             '            <div class="row m-1 p-2 bg-white shadow-sm g-3 text-dark" style="border-radius: 1em;">' +
@@ -55,8 +56,7 @@ $(document).ready(function () {
                         );
                     }
 
-
-
+                    // Project task print
                     for (var i = 0; i < data[2].length; i++) {
                         var taskMember = '';
 
@@ -185,7 +185,7 @@ $(document).ready(function () {
             $('#progress-container').show();
         },
         success: function (data) {
-    
+
             if (data != false) {
                 for (var i = 0; i < data[0].length; i++) {
                     $('#project-member-list').append(
@@ -340,7 +340,7 @@ $(document).on('click', '.project-member-btn',
     }
 );
 
-// Create project ajax
+// Create project 
 $(document).on('submit', '#project-form',
     function (e) {
 
@@ -367,6 +367,43 @@ $(document).on('submit', '#project-form',
                     location.reload();
                 } else {
                     alert('Failed to create workspace.');
+                }
+            },
+            error: function () {
+                $('#notice-container').html(
+                    '<small class="text-danger fw-light">' +
+                    '<i class="fas fa-exclamation-triangle me-1 fa-fw"></i>500: Internal Server Error.' +
+                    '</small>'
+                );
+            },
+            complete: function () {
+                $('#progress-container').hide();
+            }
+        });
+
+    }
+);
+
+// Delete project 
+$(document).on('click', '.delete-btn',
+    function () {
+        $.ajax({
+            type: 'POST',
+            url: url + 'removeWorkspace',
+            data: {
+                projectID: projectID
+            },
+            dataType: 'JSON',
+            beforeSend: function () {
+                $('#progress-container').show();
+            },
+            success: function (data) {
+
+                if (data != false) {
+                    alert('Successfully deleted your workspace.')
+                    location.replace('workspace.html');
+                } else {
+                    alert('Failed to delete workspace.');
                 }
             },
             error: function () {
