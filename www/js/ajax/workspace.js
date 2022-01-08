@@ -24,7 +24,7 @@ if (workspaceID != null) {
             $('#progress-container').show();
         },
         success: function (data) {
-
+            console.log(data);
             if (
                 Array.isArray(data) &&
                 data.length > 0
@@ -33,9 +33,9 @@ if (workspaceID != null) {
                 // Print workspace details container
                 for (var i = 0; i < data[0].length; i++) {
 
-                    var teams =  '<span class=" bg-secondary text-capitalize fw-bold text-white px-3 py-2 m-1" style="border-radius: 2em;">' +
-                    'You' +
-                    '</span>';
+                    var teams = '<span class=" bg-secondary text-capitalize fw-bold text-white px-3 py-2 m-1" style="border-radius: 2em;">' +
+                        'You' +
+                        '</span>';
 
                     for (var j = 0; j < data[1].length; j++) {
                         teams +=
@@ -70,29 +70,29 @@ if (workspaceID != null) {
                 for (var i = 0; i < data[2].length; i++) {
 
                     var assigns = '';
+                    var userID = data[2][i].userID.split(",");
+                    var taskName = data[2][i].taskName.split(",");
+                    var firstName = data[2][i].firstName.split(",");
 
-                    for (var j = 0; j < data[3].length; j++) {
+                    for (var j = 0; j < taskName.length; j++) {
 
-                        if (data[3][j].taskID == data[2][j].taskID) {
-                            if (data[3][j].userID === token.userID ) {
-                                assigns +=
+                        if (userID[j] === token.userID) {
+                            assigns +=
                                 '<span class=" bg-secondary text-capitalize fw-bold text-white px-3 py-2 m-1" style="border-radius: 2em;">' +
-                                'You'+
+                                'You' +
                                 '</span>';
-                            } else {
-                                assigns +=
+                        } else {
+                            assigns +=
                                 '<span class=" bg-info text-capitalize fw-bold text-white px-3 py-2 m-1" style="border-radius: 2em;">' +
-                                data[3][j].firstName +
+                                firstName[j] +
                                 '</span>';
-                            }
-                            
                         }
                     }
 
                     $('#view-display').append(
                         '                <div class="row m-1 mt-3 pt-0 p-3 bg-white shadow-sm g-3" style="border-radius: 1em;">' +
                         '                    <div class="col-12">' +
-                        '                        <h4 class="text-dark mb-0" id="taskName">' + data[2][i].taskName + '</h4>' +
+                        '                        <h4 class="text-dark mb-0" id="taskName">' + taskName[0] + '</h4>' +
                         '                    </div>' +
                         '                    <div class="col-auto d-flex flex-row flex-wrap" id="taskMember">' +
                         assigns +
