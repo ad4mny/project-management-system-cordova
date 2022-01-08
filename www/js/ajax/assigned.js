@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    // Get workspace list
+    // Get assigned spaces list
     $.ajax({
         type: 'POST',
         url: url + "getAssigned",
@@ -13,22 +13,32 @@ $(document).ready(function () {
         },
         success: function (data) {
 
-            if (data != false) {
-
+            if (
+                Array.isArray(data) &&
+                data.length > 0
+            ) {
                 for (var i = 0; i < data.length; i++) {
 
-                    var memberList = '';
-                    var memberName = data[i].firstName.split(",");
+                    var assigns = '';
+                    var userID = data[i].userID.split(",");
+                    var name = data[i].firstName.split(",");
                     var taskName = data[i].taskName.split(",");
-                    var projectStartDate = data[i].projectStartDate.split(",");
-                    var projectEndDate = data[i].projectEndDate.split(",");
-                    var projectName = data[i].projectName.split(",");
+                    var startDate = data[i].startDate.split(",");
+                    var endDate = data[i].endDate.split(",");
+                    var workspaceName = data[i].workspaceName.split(",");
 
-                    for (var j = 0; j < memberName.length; j++) {
-                        memberList +=
+                    for (var j = 0; j < name.length; j++) {
+                        if (userID[j] === token.userID) {
+                            assigns +=
+                                '<small class="bg-secondary text-white px-3 py-1 me-1 mb-1 mb-0 text-capitalize" style="border-radius: 2em;">' +
+                                'You' +
+                                '</small>';
+                        } else {
+                            assigns +=
                             '<small class="bg-info text-white px-3 py-1 me-1 mb-1 mb-0 text-capitalize" style="border-radius: 2em;">' +
-                            memberName[j] +
+                            name[j] +
                             '</small>';
+                        }
                     }
 
                     $('#main-container').append(
@@ -38,20 +48,22 @@ $(document).ready(function () {
                         '                        <p class="mb-0">' + taskName[0] + '</p>' +
                         '                    </div>' +
                         '                    <div class="col-12">' +
-                        '                        <small class="m-auto">' + projectName[0] + '</small>' +
+                        '                        <small class="m-auto">' + workspaceName[0] + '</small>' +
                         '                    </div>' +
                         '                    <div class="col-12">' +
-                        '                        <small class="text-muted m-auto">' + projectStartDate[0] + ' <i class="fas fa-chevron-right fa-fw fa-xs"></i> ' + projectEndDate[0] + '</small>' +
+                        '                        <small class="text-muted m-auto">' +
+                        startDate[0] +
+                        '                           <i class="fas fa-chevron-right fa-fw fa-xs"></i> ' +
+                        endDate[0] +
+                        '                        </small>' +
                         '                    </div>' +
                         '                    <div class="col-auto d-flex flex-row flex-wrap pt-3">' +
-                        memberList +
+                        assigns +
                         '                    </div>' +
                         '                </div>' +
                         '</a>'
                     );
                 }
-
-
             } else {
                 $('#main-container').append(
                     '                <div class="row m-1 py-3 px-1 bg-white shadow-sm text-center" style="border-radius: 1em;">' +

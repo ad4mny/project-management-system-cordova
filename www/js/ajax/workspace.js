@@ -24,7 +24,7 @@ if (workspaceID != null) {
             $('#progress-container').show();
         },
         success: function (data) {
-            console.log(data);
+
             if (
                 Array.isArray(data) &&
                 data.length > 0
