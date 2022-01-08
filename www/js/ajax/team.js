@@ -114,7 +114,7 @@ $(document).ready(function () {
                         '                <p class="mb-0 text-capitalize">' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
                         '            </div>' +
                         '            <div class="col-auto">' +
-                        '               <a href="#" class="add-btn me-2" id="' + data[i].userID + '">' +
+                        '               <a href="#" class="approve-btn me-2" id="' + data[i].userID + '">' +
                         '                   <i class="fas fa-check fa-fw text-info"></i></a>' +
                         '               <a href="#" class="remove-btn me-2" id="' + data[i].userID + '">' +
                         '                   <i class="fas fa-times fa-fw text-danger"></i></a>' +
@@ -230,12 +230,44 @@ $(document).on('click', '.remove-btn',
     }
 );
 
-// Approve / add friend request
+// Add friend request
 $(document).on('click', '.add-btn',
     function () {
         $.ajax({
             type: 'POST',
             url: url + "addFriend",
+            data: {
+                userID: token.userID,
+                friendID: this.id
+            },
+            dataType: 'JSON',
+            beforeSend: function () {
+                $('#progress-container').show();
+            },
+            success: function (data) {
+                if (data != false) {
+                    alert('Success adding a friend.');
+                    location.reload();
+                } else {
+                    alert('Failed to add friend or you have a pending friend request.');
+                }
+            },
+            error: function () {
+                $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
+            },
+            complete: function () {
+                $('#progress-container').hide();
+            }
+        });
+    }
+);
+
+// Approve friend request
+$(document).on('click', '.approve-btn',
+    function () {
+        $.ajax({
+            type: 'POST',
+            url: url + "approveFriend",
             data: {
                 userID: token.userID,
                 friendID: this.id
