@@ -86,43 +86,45 @@
         <!-- Content -->
         <div class="container mb-5 pb-5">
             <form action="" method="post" id="project-form">
-                <div class="row m-1 py-3 px-1 bg-white shadow-sm g-3" style="border-radius: 1em;">
+                <div class="row m-1 p-3 pt-0 bg-white shadow-sm g-3" style="border-radius: 1em;">
                     <div class="col-12">
-                        <input type="text" class="form-control p-2 px-3" name="projectName" placeholder="Project title"
+                        <input type="text" class="form-control p-2 px-3" name="workspaceName" placeholder="Workspace name"
                             style="border-radius: 1em;" required>
                     </div>
                     <div class="col-12">
-                        <textarea class="form-control p-2 px-3" max="150" name="projectDesc" rows="6"
-                            placeholder="Project description" style="border-radius: 1em;" required></textarea>
+                        <textarea class="form-control p-2 px-3" max="150" name="workspaceDesc" rows="6"
+                            placeholder="Workspace description" style="border-radius: 1em;" required></textarea>
                     </div>
                     <div class="col-6">
+                        <small class="text-muted">Start date</small>
                         <input type="date" class="form-control" name="startDate" style="border-radius: 1em;" required>
                     </div>
                     <div class="col-6">
+                        <small class="text-muted">End date</small>
                         <input type="date" class="form-control" name="endDate" style="border-radius: 1em;" required>
                     </div>
-                    <div class="col-auto d-flex flex-row flex-wrap" id="project-member">
-
-                    </div>
                     <div class="col-12">
-                        <select class="form-select text-capitalize" style="border-radius: 1em;" id="project-member-list"
+                        <small class="text-muted">Team members</small>
+                        <select class="form-select" style="border-radius: 1em;" id="workspace-member-list"
                             required>
-                            <option id="0" value="" disabled selected>Add project team members</option>
+                            <option id="0" value="" disabled selected>Add workspace team members</option>
                         </select>
+                    </div>
+                    <div class="col-auto d-flex flex-row flex-wrap" id="workspace-member">
+
                     </div>
                 </div>
                 <div id="task-display">
 
                 </div>
                 <div class="row py-3" style="border-radius: 1em;">
-                    <div class="col-6 text-center">
-                        <button type="button" class="btn btn-outline-primary add-task-btn" style="border-radius: 1em;">
-                            <i class="fas fa-plus fa-fw fa-sm"></i> Add Task
+                    <div class="col g-2 text-center ">
+                        <button type="button" class="btn btn-outline-primary m-2 add-task-btn"
+                            style="border-radius: 1em;">
+                            Add Task
                         </button>
-                    </div>
-                    <div class="col-6 text-center">
-                        <button type="submit" class="btn btn-primary" style="border-radius: 1em;">
-                            <i class="fas fa-chevron-right fa-fw fa-sm"></i> Create
+                        <button type="submit" class="btn btn-primary m-2" style="border-radius: 1em;">
+                            Create
                         </button>
                     </div>
                 </div>
@@ -140,7 +142,7 @@
 
         <!-- Content -->
         <div class="container mb-5 pb-5">
-            <div id="display">
+            <div id="view-display">
 
             </div>
             <div class="row py-3">

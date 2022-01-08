@@ -1,99 +1,121 @@
-var projectMember = [];
+var workspaceMember = [{
+    'userid': token.userID,
+    'name': 'You'
+}];
 var taskMember = [];
 var tasks = 0;
 var params = new URL(window.location.href);
-var projectID = params.searchParams.get("id");
+var workspaceID = params.searchParams.get("workspaceid");
 
-$(document).ready(function () {
+if (workspaceID != null) {
 
-    if (projectID != null) {
+    $("#main-container").addClass('d-none');
+    $("#view-container").removeClass('d-none');
 
-        $("#main-container").addClass('d-none');
-        $("#view-container").removeClass('d-none');
+    // Get workspace view
+    $.ajax({
+        type: 'POST',
+        url: url + "viewWorkspace",
+        data: {
+            workspaceID: workspaceID
+        },
+        dataType: 'JSON',
+        beforeSend: function () {
+            $('#progress-container').show();
+        },
+        success: function (data) {
 
-        // Get workspace view
-        $.ajax({
-            type: 'POST',
-            url: url + "viewWorkspace",
-            data: {
-                projectID: projectID
-            },
-            dataType: 'JSON',
-            beforeSend: function () {
-                $('#progress-container').show();
-            },
-            success: function (data) {
+            if (
+                Array.isArray(data) &&
+                data.length > 0
+            ) {
 
-                if (data != false) {
+                // Print workspace details container
+                for (var i = 0; i < data[0].length; i++) {
 
-                    var projectMember = '';
+                    var teams =  '<span class=" bg-secondary text-capitalize fw-bold text-white px-3 py-2 m-1" style="border-radius: 2em;">' +
+                    'You' +
+                    '</span>';
 
-                    for (var i = 0; i < data[1].length; i++) {
-                        projectMember +=
-                            '<span class=" bg-info text-capitalize fw-bold text-white px-3 py-2 me-1 mb-1 " style="border-radius: 2em;">' +
-                            data[1][i].firstName +
+                    for (var j = 0; j < data[1].length; j++) {
+                        teams +=
+                            '<span class=" bg-info text-capitalize fw-bold text-white px-3 py-2 m-1" style="border-radius: 2em;">' +
+                            data[1][j].firstName +
                             '</span>';
                     }
 
-                    // Project details print
-                    for (var i = 0; i < data[0].length; i++) {
-                        $('#display').append(
-                            '            <div class="row m-1 p-2 bg-white shadow-sm g-3 text-dark" style="border-radius: 1em;">' +
-                            '                <div class="col-12">' +
-                            '                    <h1 class="fw-bold mb-0">' + data[0][i].projectName + '</h1>' +
-                            '                </div>' +
-                            '                <div class="col-12">' +
-                            '                    <p class="text-muted mb-0">' + data[0][i].projectStartDate + ' <i' +
-                            '                            class="fas fa-chevron-right fa-fw fa-sm"></i> ' + data[0][i].projectEndDate + '</p>' +
-                            '                </div>' +
-                            '                <div class="col-12">' +
-                            '                    <p class="">' + data[0][i].projectDesc + '</p>' +
-                            '                </div>' +
-                            '                <div class="col-auto d-flex flex-row flex-wrap" id="projectMember">' +
-                            projectMember +
-                            '                </div>' +
-                            '            </div>'
-                        );
-                    }
-
-                    // Project task print
-                    for (var i = 0; i < data[2].length; i++) {
-                        var taskMember = '';
-
-                        for (var x = 0; x < data[3].length; x++) {
-                            if (data[3][x].taskID == data[2][i].taskID) {
-                                taskMember +=
-                                    '<span class=" bg-info text-capitalize fw-bold text-white px-3 py-2 me-1 mb-1 " style="border-radius: 2em;">' +
-                                    data[3][x].firstName +
-                                    '</span>';
-                            }
-                        }
-
-                        $('#display').append(
-                            '                <div class="row m-1 mt-3 p-2 bg-white shadow-sm g-3" style="border-radius: 1em;">' +
-                            '                    <div class="col-12">' +
-                            '                        <h3 class="fw-bold mb-0" id="taskName">' + data[2][i].taskName + '</h2>' +
-                            '                    </div>' +
-                            '                    <div class="col-auto d-flex flex-row flex-wrap" id="taskMember">' +
-                            taskMember +
-                            '                    </div>' +
-                            '                </div>'
-                        );
-                    }
-
+                    $('#view-display').append(
+                        '            <div class="row m-1 pt-0 p-3 bg-white shadow-sm g-3 text-dark" style="border-radius: 1em;">' +
+                        '                <div class="col-12">' +
+                        '                    <h1 class="text-dark mb-0">' + data[0][i].workspaceName + '</h1>' +
+                        '                </div>' +
+                        '                <div class="col-12 m-auto">' +
+                        '                    <p class="text-muted">' +
+                        data[0][i].startDate +
+                        '                       <i class="fas fa-arrow-right fa-fw fa-sm"></i> ' +
+                        data[0][i].endDate +
+                        '                    </p>' +
+                        '                </div>' +
+                        '                <div class="col-12">' +
+                        '                    <p class="">' + data[0][i].workspaceDesc + '</p>' +
+                        '                </div>' +
+                        '                <div class="col-auto d-flex flex-row flex-wrap" id="projectMember">' +
+                        teams +
+                        '                </div>' +
+                        '            </div>'
+                    );
                 }
 
-            },
-            error: function () {
-                $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
-            },
-            complete: function () {
-                $('#progress-container').hide();
+                // Print workspace task container
+                for (var i = 0; i < data[2].length; i++) {
+
+                    var assigns = '';
+
+                    for (var j = 0; j < data[3].length; j++) {
+
+                        if (data[3][j].taskID == data[2][j].taskID) {
+                            if (data[3][j].userID === token.userID ) {
+                                assigns +=
+                                '<span class=" bg-secondary text-capitalize fw-bold text-white px-3 py-2 m-1" style="border-radius: 2em;">' +
+                                'You'+
+                                '</span>';
+                            } else {
+                                assigns +=
+                                '<span class=" bg-info text-capitalize fw-bold text-white px-3 py-2 m-1" style="border-radius: 2em;">' +
+                                data[3][j].firstName +
+                                '</span>';
+                            }
+                            
+                        }
+                    }
+
+                    $('#view-display').append(
+                        '                <div class="row m-1 mt-3 pt-0 p-3 bg-white shadow-sm g-3" style="border-radius: 1em;">' +
+                        '                    <div class="col-12">' +
+                        '                        <h4 class="text-dark mb-0" id="taskName">' + data[2][i].taskName + '</h4>' +
+                        '                    </div>' +
+                        '                    <div class="col-auto d-flex flex-row flex-wrap" id="taskMember">' +
+                        assigns +
+                        '                    </div>' +
+                        '                </div>'
+                    );
+                }
+
             }
 
-        });
+        },
+        error: function () {
+            $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
+        },
+        complete: function () {
+            $('#progress-container').hide();
+        }
 
-    }
+    });
+
+}
+
+$(document).ready(function () {
 
     $(".add-workspace-btn").click(function () {
         $("#main-container").slideUp(300, function () {
@@ -125,29 +147,37 @@ $(document).ready(function () {
         },
         success: function (data) {
 
-            if (data['project'] != false) {
+            if (
+                Array.isArray(data) &&
+                data.length > 0
+            ) {
 
-                var members = '';
-
+                // Print workspace list view
                 for (var i = 0; i < data[0].length; i++) {
-                    members += '<small class="bg-info text-white px-3 py-1 me-1 mb-1 mb-0 text-capitalize" style="border-radius: 2em;">' +
-                        data[0][i].firstName +
-                        '</small>';
 
-                }
+                    var teams = '';
 
-                for (var i = 0; i < data['project'].length; i++) {
+                    for (var j = 0; j < data[1][i].length; j++) {
+                        teams += '<small class="bg-info text-white px-3 py-1 m-1 text-capitalize" style="border-radius: 2em;">' +
+                            data[1][i][j].firstName +
+                            '</small>';
+                    }
+
                     $('#workspace-container').append(
-                        '<a href="workspace.html?id=' + data['project'][i].projectID + '" class="text-decoration-none text-reset">' +
+                        '<a href="workspace.html?workspaceid=' + data[0][i].workspaceID + '" class="text-decoration-none text-reset">' +
                         '                <div class="row m-1 py-3 px-1 bg-white shadow-sm" style="border-radius: 1em;">' +
                         '                    <div class="col-12">' +
-                        '                        <p class="mb-0">' + data['project'][i].projectName + '</p>' +
+                        '                        <p class="mb-0">' + data[0][i].workspaceName + '</p>' +
                         '                    </div>' +
                         '                    <div class="col-12">' +
-                        '                        <small class="text-muted m-auto">' + data['project'][i].projectStartDate + ' <i class="fas fa-chevron-right fa-fw fa-xs"></i> ' + data['project'][i].projectEndDate + '</small>' +
+                        '                        <small class="fw-lighter text-muted m-auto">' +
+                        data[0][i].startDate +
+                        '                           <i class="fas fa-arrow-right fa-fw fa-xs"></i> ' +
+                        data[0][i].endDate +
+                        '                         </small>' +
                         '                    </div>' +
                         '                    <div class="col-auto d-flex flex-row flex-wrap pt-3">' +
-                        members +
+                        teams +
                         '                    </div>' +
                         '                </div>' +
                         '</a>'
@@ -173,12 +203,12 @@ $(document).ready(function () {
 
     });
 
-    // Get team members list
+    // Get friends list
     $.ajax({
         type: 'POST',
-        url: url + "getTeam",
+        url: url + "getFriend",
         data: {
-            teamID: token.teamID
+            userID: token.userID
         },
         dataType: 'JSON',
         beforeSend: function () {
@@ -186,15 +216,23 @@ $(document).ready(function () {
         },
         success: function (data) {
 
-            if (data != false) {
-                for (var i = 0; i < data[0].length; i++) {
-                    $('#project-member-list').append(
-                        '<option value="' + data[0][i].firstName + '" id="' + data[0][i].userID + '">' + data[0][i].firstName + '</option>'
+            if (
+                Array.isArray(data) &&
+                data.length > 0 &&
+                data != false
+            ) {
+
+                for (var i = 0; i < data.length; i++) {
+                    $('#workspace-member-list').append(
+                        '<option value="' + data[i].firstName + '" id="' + data[i].userID + '">' +
+                        data[i].firstName + ' ' + data[i].lastName +
+                        '</option>'
                     );
                 }
+
             } else {
-                $('#project-member-list').append(
-                    '<option selected disabled>No available member to add</option>'
+                $('#workspace-member-list').append(
+                    '<option selected disabled>No available friends can add into the workspace</option>'
                 );
             }
         },
@@ -215,24 +253,24 @@ $(document).on('click', '.add-task-btn', function () {
     tasks++;
 
     $('#task-display').append(
-        '                    <div class="row m-1 mt-3 py-3 px-1 bg-white shadow-sm g-3" style="border-radius: 1em;">' +
+        '                    <div class="row m-1 mt-3 p-3 pt-0 px-1 bg-white shadow-sm g-3" style="border-radius: 1em;">' +
         '                        <div class="col-12">' +
         '                            <input type="text" class="form-control p-2 px-3" name="taskName[]"' +
         '                                placeholder="Task name" style="border-radius: 1em;" required>' +
-        '                        </div>' +
-        '                        <div id="task-member' + tasks + '">' +
         '                        </div>' +
         '                        <div class="col-12">' +
         '                            <select class="form-select task-member-list" id="task-member-list' + tasks + '" style="border-radius: 1em;" required>' +
         '                                <option disabled selected>Add group members</option>' +
         '                            </select>' +
         '                        </div>' +
+        '                        <div class="col-auto" id="task-member' + tasks + '">' +
+        '                        </div>' +
         '                    </div>'
     );
 
-    $.each(projectMember, function (key, value) {
+    $.each(workspaceMember, function (key, value) {
         $('#task-member-list' + tasks).append(
-            '<option value="' + value['name'] + '" id="' + value['id'] + '" data-task="' + tasks + '">' + value['name'] + '</option>'
+            '<option value="' + value['name'] + '" id="' + value['userid'] + '" data-task="' + tasks + '">' + value['name'] + '</option>'
         );
     });
 
@@ -245,32 +283,41 @@ $(document).on('click', '.add-task-btn', function () {
 
 // Task member list output
 $(document).on('change', '.task-member-list', function () {
+
     var id = $(this).children(":selected").attr("id");
     var value = $(this).children(":selected").attr("value");
     var taskID = $(this).children(":selected").attr("data-task");
 
     // Check if localStorage for member exist
     if (taskMember === null) {
+
         localStorage.setItem('taskMember', JSON.stringify({
-            'id': id,
+            'userid': id,
             'name': value,
             'task': taskID
         }));
+
     } else {
         taskMember.push({
-            'id': id,
+            'userid': id,
             'name': value,
             'task': taskID
         });
+
         localStorage.setItem('taskMember', JSON.stringify(taskMember));
     }
 
     $('#task-member' + taskID).html('');
 
     $.each(taskMember, function (key, value) {
+
         if (taskID === value['task']) {
+
             $('#task-member' + taskID).append(
-                '<button type="button" class="btn btn-info text-capitalize fw-bold text-white px-3 py-2 me-1 mb-1 task-member-btn" style="border-radius: 2em;" value="' + value['id'] + '">' + value['name'] + '<i class="fas fa-times fa-fw fa-sm"></i></button>'
+                '<button type="button" class="btn btn-info text-capitalize fw-bold text-white px-3 py-2 m-1 task-member-btn" style="border-radius: 2em;" value="' + value['userid'] + '">' +
+                value['name'] +
+                '<i class="fas fa-times fa-fw fa-sm"></i>' +
+                '</button>'
             );
         }
     });
@@ -280,43 +327,46 @@ $(document).on('change', '.task-member-list', function () {
 // Remove from task member list
 $(document).on('click', '.task-member-btn',
     function () {
-
         // Check if localStorage for member exist
         if (taskMember !== null) {
             taskMember.splice(taskMember.indexOf(this.value), 1);
             localStorage.setItem('taskMember', JSON.stringify(taskMember));
+            $(this).remove();
         }
-
-        $('#input' + this.value).remove();
-        $(this).remove();
     }
 );
 
-// Project member list output
-$(document).on('change', '#project-member-list',
+// Workspace member list output
+$(document).on('change', '#workspace-member-list',
     function () {
-        var id = $(this).children(":selected").attr("id");
-        var value = $(this).children(":selected").attr("value");
+        var userID = $(this).children(":selected").attr("id");
+        var name = $(this).children(":selected").attr("value");
 
         // Check if localStorage for member exist
-        if (projectMember === null) {
-            localStorage.setItem('projectMember', JSON.stringify({
-                'id': id,
-                'name': value
+        if (workspaceMember === null) {
+
+            localStorage.setItem('workspaceMember', JSON.stringify({
+                'userid': userID,
+                'name': name
             }));
+
         } else {
-            projectMember.push({
-                'id': id,
-                'name': value
+            workspaceMember.push({
+                'userid': userID,
+                'name': name
             });
-            localStorage.setItem('projectMember', JSON.stringify(projectMember));
+
+            localStorage.setItem('workspaceMember', JSON.stringify(workspaceMember));
         }
 
-        $('#project-member').html('');
+        $('#workspace-member').html('');
 
-        $.each(projectMember, function (key, value) {
-            $('#project-member').append(
-                '<button type="button" class="btn btn-info text-capitalize fw-bold text-white px-3 py-2 me-1 mb-1 project-member-btn" style="border-radius: 2em;" value="' + value['id'] + '">' + value['name'] + '<i class="fas fa-times fa-fw fa-sm"></i></button>'
+        $.each(workspaceMember, function (key, value) {
+            $('#workspace-member').append(
+                '<button type="button" class="btn btn-info text-capitalize fw-bold text-white px-3 py-2 m-1 workspace-member-btn" style="border-radius: 2em;" value="' + value['userid'] + '">' +
+                value['name'] +
+                '<i class="fas fa-times fa-fw fa-sm"></i>' +
+                '</button>'
             );
         });
 
@@ -324,19 +374,16 @@ $(document).on('change', '#project-member-list',
 );
 
 // Remove from project member list
-$(document).on('click', '.project-member-btn',
+$(document).on('click', '.workspace-member-btn',
     function () {
-
         // Check if localStorage for member exist
-        if (projectMember !== null) {
-            projectMember.splice(projectMember.indexOf(this.value), 1);
+        if (workspaceMember !== null) {
+            workspaceMember.splice(workspaceMember.indexOf(this.value), 1);
             taskMember.splice(taskMember.indexOf(this.value), 1);
-            localStorage.setItem('projectMember', JSON.stringify(projectMember));
+            localStorage.setItem('workspaceMember', JSON.stringify(workspaceMember));
             localStorage.setItem('taskMember', JSON.stringify(taskMember));
+            $(this).remove();
         }
-
-        $('#input' + this.value).remove();
-        $(this).remove();
     }
 );
 
@@ -346,7 +393,7 @@ $(document).on('submit', '#project-form',
 
         e.preventDefault();
         var formData = new FormData(this);
-        formData.append('projectMember', JSON.stringify(projectMember));
+        formData.append('workspaceMember', JSON.stringify(workspaceMember));
         formData.append('taskMember', JSON.stringify(taskMember));
         formData.append('userID', token.userID);
 
@@ -391,7 +438,7 @@ $(document).on('click', '.delete-btn',
             type: 'POST',
             url: url + 'removeWorkspace',
             data: {
-                projectID: projectID
+                workspaceID: workspaceID
             },
             dataType: 'JSON',
             beforeSend: function () {
