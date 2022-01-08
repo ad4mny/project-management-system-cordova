@@ -30,12 +30,12 @@ $(document).ready(function () {
                     for (var j = 0; j < name.length; j++) {
                         if (userID[j] === token.userID) {
                             assigns +=
-                                '<small class="bg-secondary text-white px-3 py-1 me-1 mb-1 mb-0 text-capitalize" style="border-radius: 2em;">' +
+                                '<small class="bg-secondary text-white px-3 py-1 m-1 text-capitalize" style="border-radius: 2em;">' +
                                 'You' +
                                 '</small>';
                         } else {
                             assigns +=
-                            '<small class="bg-info text-white px-3 py-1 me-1 mb-1 mb-0 text-capitalize" style="border-radius: 2em;">' +
+                            '<small class="bg-info text-white px-3 py-1 m-1 text-capitalize" style="border-radius: 2em;">' +
                             name[j] +
                             '</small>';
                         }
