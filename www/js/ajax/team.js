@@ -30,90 +30,12 @@ $(document).ready(function () {
         $("#member-container").addClass('d-none');
     });
 
-    // Check for existing team
-    if (token.teamID != null) {
-        // Get team members list
-        $.ajax({
-            type: 'POST',
-            url: url + "getTeam",
-            data: {
-                teamID: token.teamID
-            },
-            dataType: 'JSON',
-            beforeSend: function () {
-                $('#progress-container').show();
-            },
-            success: function (data) {
-
-                if (data[0] != false) {
-                    for (var i = 0; i < data[0].length; i++) {
-                        var buttons = '';
-                        var owner = '';
-
-                        if (data.userID == token.userID && token.userID != data[0][i].userID) {
-                            buttons =
-                                '<a href="#" class="remove-btn me-2" id="' + data[0][i].userID + '">' +
-                                '<i class="fas fa-times fa-fw text-danger"></i></a>';
-                        }
-
-                        if (data.userID == data[0][i].userID) {
-                            owner =
-                                '<a href="#" class="me-2">' +
-                                '<i class="fas fa-crown fa-fw text-warning"></i></a>';
-                        }
-
-                        $('#member-display').append(
-                            '        <div class="row m-1 p-2 bg-white shadow-sm" style="border-radius: 1em;">' +
-                            '            <div class="col">' +
-                            '                <p class="mb-0 text-capitalize">' + data[0][i].firstName + ' ' + data[0][i].lastName + '</p>' +
-                            '            </div>' +
-                            '            <div class="col-auto">' +
-                            owner +
-                            buttons +
-                            '            </div>' +
-                            '        </div>'
-                        );
-
-                        // Checking team owner to display disband button
-                        if (token.userID != data[0][i].userID) {
-                            $('.disband-btn').removeClass('d-none');
-                        }
-                    }
-                } else {
-                    $('#member-display').append(
-                        '        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">' +
-                        '            <div class="col text-center">' +
-                        '                <p class="mb-0">No member in the team yet.</p>' +
-                        '            </div>' +
-                        '        </div>'
-                    );
-                }
-            },
-            error: function () {
-                $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
-            },
-            complete: function () {
-                $('#progress-container').hide();
-            }
-        });
-    } else {
-        $('#member-display').append(
-            '        <div class="row m-1 p-2" style="border-radius: 1em;">' +
-            '            <div class="col text-center">' +
-            '                <p class="text-white">Wait others to invite you to a team</p>' +
-            '                <p class="text-white">or</p>' +
-            '                <button class="btn btn-primary create-btn" style="border-radius: 1em;">Create a team</button>' +
-            '            </div>' +
-            '        </div>'
-        );
-    }
-
-    // Get request members list
+    // Get friends list
     $.ajax({
         type: 'POST',
-        url: url + "getRequest",
+        url: url + "getFriendList",
         data: {
-            teamID: token.teamID
+            userID: token.userID
         },
         dataType: 'JSON',
         beforeSend: function () {
@@ -121,36 +43,81 @@ $(document).ready(function () {
         },
         success: function (data) {
 
-            if (data[0] != false) {
-                for (var i = 0; i < data[0].length; i++) {
+            if (
+                Array.isArray(data) &&
+                data.length > 0 &&
+                data != false
+            ) {
+                for (var i = 0; i < data.length; i++) {
+
                     var buttons = '';
-                    var owner = '';
 
-                    if (data.userID == token.userID) {
+                    if (token.userID != data[i].userID) {
                         buttons =
-                            '<a href="#" class="approve-btn me-2" id="' + data[0][i].userID + '">' +
-                            '<i class="fas fa-check fa-fw text-info"></i></a>';
-                        if (token.userID != data[0][i].userID) {
-                            buttons +=
-                                '<a href="#" class="remove-btn me-2" id="' + data[0][i].userID + '">' +
-                                '<i class="fas fa-times fa-fw text-danger"></i></a>';
-                        }
+                            '<a href="#" class="remove-btn me-2" id="' + data[i].userID + '">' +
+                            '<i class="fas fa-times fa-fw text-danger"></i></a>';
                     }
 
-                    if (data.userID == data[0][i].userID) {
-                        owner =
-                            '<a href="#" class="me-2">' +
-                            '<i class="fas fa-crown fa-fw text-warning"></i></a>';
-                    }
+                    $('#member-display').append(
+                        '        <div class="row m-1 p-2 bg-white shadow-sm" style="border-radius: 1em;">' +
+                        '            <div class="col">' +
+                        '                <p class="mb-0 text-capitalize">' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
+                        '            </div>' +
+                        '            <div class="col-auto">' +
+                        buttons +
+                        '            </div>' +
+                        '        </div>'
+                    );
+
+                }
+            } else {
+                $('#member-display').append(
+                    '        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">' +
+                    '            <div class="col text-center">' +
+                    '                <p class="mb-0">No member in the team yet.</p>' +
+                    '            </div>' +
+                    '        </div>'
+                );
+            }
+        },
+        error: function () {
+            $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
+        },
+        complete: function () {
+            $('#progress-container').hide();
+        }
+    });
+
+    // Get friend request list
+    $.ajax({
+        type: 'POST',
+        url: url + "getFriendRequest",
+        data: {
+            userID: token.userID
+        },
+        dataType: 'JSON',
+        beforeSend: function () {
+            $('#progress-container').show();
+        },
+        success: function (data) {
+
+            if (
+                Array.isArray(data) &&
+                data.length > 0 &&
+                data != false
+            ) {
+                for (var i = 0; i < data.length; i++) {
 
                     $('#request-container').append(
                         '        <div class="row m-1 p-2 bg-white shadow-sm" style="border-radius: 1em;">' +
                         '            <div class="col">' +
-                        '                <p class="mb-0 text-capitalize">' + data[0][i].firstName + ' ' + data[0][i].lastName + '</p>' +
+                        '                <p class="mb-0 text-capitalize">' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
                         '            </div>' +
                         '            <div class="col-auto">' +
-                        owner +
-                        buttons +
+                        '               <a href="#" class="add-btn me-2" id="' + data[i].userID + '">' +
+                        '                   <i class="fas fa-check fa-fw text-info"></i></a>' +
+                        '               <a href="#" class="remove-btn me-2" id="' + data[i].userID + '">' +
+                        '                   <i class="fas fa-times fa-fw text-danger"></i></a>' +
                         '            </div>' +
                         '        </div>'
                     );
@@ -171,17 +138,18 @@ $(document).ready(function () {
         complete: function () {
             $('#progress-container').hide();
         }
-
     });
+
 });
 
-// Search member
+// Search friend
 $(document).on('keyup', '#search-input',
     function () {
         $.ajax({
             type: 'POST',
             url: url + "searchUser",
             data: {
+                userID: token.userID,
                 query: this.value
             },
             dataType: 'JSON',
@@ -189,9 +157,14 @@ $(document).on('keyup', '#search-input',
                 $('#progress-container').show();
             },
             success: function (data) {
+
                 $('#search-display').html('');
 
-                if (data != false) {
+                if (
+                    Array.isArray(data) &&
+                    data.length > 0 &&
+                    data != false
+                ) {
                     for (var i = 0; i < data.length; i++) {
                         $('#search-display').append(
                             '        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">' +
@@ -225,14 +198,15 @@ $(document).on('keyup', '#search-input',
     }
 );
 
-// Remove member/ member request
+// Remove friend / friend request
 $(document).on('click', '.remove-btn',
     function () {
         $.ajax({
             type: 'POST',
-            url: url + "removeMember",
+            url: url + "removeFriend",
             data: {
-                userID: this.id
+                userID: token.userID,
+                friendID: this.id
             },
             dataType: 'JSON',
             beforeSend: function () {
@@ -240,9 +214,10 @@ $(document).on('click', '.remove-btn',
             },
             success: function (data) {
                 if (data != false) {
+                    alert('Request/friend has been removed.');
                     location.reload();
                 } else {
-                    alert('Failed to remove member.');
+                    alert('Failed to remove friend.');
                 }
             },
             error: function () {
@@ -255,46 +230,15 @@ $(document).on('click', '.remove-btn',
     }
 );
 
-// Approve member request
-$(document).on('click', '.approve-btn',
-    function () {
-        $.ajax({
-            type: 'POST',
-            url: url + "approveMember",
-            data: {
-                userID: this.id,
-                teamID: token.teamID
-            },
-            dataType: 'JSON',
-            beforeSend: function () {
-                $('#progress-container').show();
-            },
-            success: function (data) {
-                if (data != false) {
-                    location.reload();
-                } else {
-                    alert('Failed to approve member.');
-                }
-            },
-            error: function () {
-                $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
-            },
-            complete: function () {
-                $('#progress-container').hide();
-            }
-        });
-    }
-);
-
-// Add member
+// Approve / add friend request
 $(document).on('click', '.add-btn',
     function () {
         $.ajax({
             type: 'POST',
-            url: url + "addMember",
+            url: url + "addFriend",
             data: {
-                userID: this.id,
-                teamID: token.teamID
+                userID: token.userID,
+                friendID: this.id
             },
             dataType: 'JSON',
             beforeSend: function () {
@@ -302,73 +246,10 @@ $(document).on('click', '.add-btn',
             },
             success: function (data) {
                 if (data != false) {
+                    alert('Success adding a friend.');
                     location.reload();
                 } else {
-                    alert('Failed to add member.');
-                }
-            },
-            error: function () {
-                $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
-            },
-            complete: function () {
-                $('#progress-container').hide();
-            }
-        });
-    }
-);
-
-// Create team
-$(document).on('click', '.create-btn',
-    function () {
-        $.ajax({
-            type: 'POST',
-            url: url + "setTeam",
-            data: {
-                userID: token.userID
-            },
-            dataType: 'JSON',
-            beforeSend: function () {
-                $('#progress-container').show();
-            },
-            success: function (data) {
-                if (data != null) {
-                    token.teamID = data;
-                    localStorage.setItem('token', JSON.stringify(token));
-                    location.reload();
-                } else {
-                    alert('Failed to create team.');
-                }
-            },
-            error: function () {
-                $('#notice-container').html('<div class="row"><div class="col"><p class="my-3 text-muted">Internal server error, please reload.</p></div></div>');
-            },
-            complete: function () {
-                $('#progress-container').hide();
-            }
-        });
-    }
-);
-
-// Create team
-$(document).on('click', '.disband-btn',
-    function () {
-        $.ajax({
-            type: 'POST',
-            url: url + "removeTeam",
-            data: {
-                teamID: token.teamID
-            },
-            dataType: 'JSON',
-            beforeSend: function () {
-                $('#progress-container').show();
-            },
-            success: function (data) {
-                if (data != null) {
-                    token.teamID = null;
-                    localStorage.setItem('token', JSON.stringify(token));
-                    location.reload();
-                } else {
-                    alert('Failed to disband team.');
+                    alert('Failed to add friend.');
                 }
             },
             error: function () {
