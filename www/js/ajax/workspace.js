@@ -148,8 +148,8 @@ $(document).ready(function () {
         success: function (data) {
 
             if (
-                Array.isArray(data) &&
-                data.length > 0
+                Array.isArray(data[0]) &&
+                data[0].length > 0
             ) {
 
                 // Print workspace list view
@@ -206,7 +206,7 @@ $(document).ready(function () {
     // Get friends list
     $.ajax({
         type: 'POST',
-        url: url + "getFriend",
+        url: url + "getFriendList",
         data: {
             userID: token.userID
         },
