@@ -13,4 +13,5 @@ html {
     position: relative;
     min-height: 100vh;
     scroll-behavior: smooth;
+    background-color: #f8f9fa;
 }
