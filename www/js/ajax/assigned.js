@@ -44,7 +44,7 @@ console.log(data);
 
                     $('#main-container').append(
                         '<a href="workspace.html?workspaceid=' + workspaceID[0] + '" class="text-decoration-none text-reset">' +
-                        '                <div class="row m-1 py-3 px-1 bg-white shadow-sm" style="border-radius: 1em;">' +
+                        '                <div class="row m-1 py-3 px-1 bg-white shadow" style="border-radius: 1em;">' +
                         '                    <div class="col-12">' +
                         '                        <p class="mb-0">' + taskName[0] + '</p>' +
                         '                    </div>' +
@@ -67,7 +67,7 @@ console.log(data);
                 }
             } else {
                 $('#main-container').append(
-                    '                <div class="row m-1 py-3 px-1 bg-white shadow-sm text-center" style="border-radius: 1em;">' +
+                    '                <div class="row m-1 py-3 px-1 bg-white shadow text-center" style="border-radius: 1em;">' +
                     '                    <div class="col-12">' +
                     '                        <p class="mb-0 text-muted">No tasks available to show.</p>' +
                     '                    </div>' +

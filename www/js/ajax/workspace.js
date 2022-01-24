@@ -45,7 +45,7 @@ console.log(data);
                     }
 
                     $('#view-display').append(
-                        '            <div class="row m-1 pt-0 p-3 bg-white shadow-sm g-3 text-dark" style="border-radius: 1em;">' +
+                        '            <div class="row m-1 pt-0 p-3 bg-white shadow g-3 text-dark" style="border-radius: 1em;">' +
                         '                <div class="col-12">' +
                         '                    <h1 class="text-dark mb-0">' + data[0][i].workspaceName + '</h1>' +
                         '                </div>' +
@@ -90,7 +90,7 @@ console.log(data);
                     }
 
                     $('#view-display').append(
-                        '                <div class="row m-1 mt-3 pt-0 p-3 bg-white shadow-sm g-3" style="border-radius: 1em;">' +
+                        '                <div class="row m-1 mt-3 pt-0 p-3 bg-white shadow g-3" style="border-radius: 1em;">' +
                         '                    <div class="col-12">' +
                         '                        <h4 class="text-dark mb-0" id="taskName">' + taskName[0] + '</h4>' +
                         '                    </div>' +
@@ -168,7 +168,7 @@ $(document).ready(function () {
 
                     $('#workspace-container').append(
                         '<a href="workspace.html?workspaceid=' + data[0][i].workspaceID + '" class="text-decoration-none text-reset">' +
-                        '                <div class="row m-1 py-3 px-1 bg-white shadow-sm" style="border-radius: 1em;">' +
+                        '                <div class="row m-1 py-3 px-1 bg-white shadow" style="border-radius: 1em;">' +
                         '                    <div class="col-12">' +
                         '                        <p class="mb-0">' + data[0][i].workspaceName + '</p>' +
                         '                    </div>' +
@@ -189,7 +189,7 @@ $(document).ready(function () {
 
             } else {
                 $('#workspace-container').append(
-                    '                <div class="row m-1 py-3 px-1 bg-white shadow-sm text-center" style="border-radius: 1em;">' +
+                    '                <div class="row m-1 py-3 px-1 bg-white shadow text-center" style="border-radius: 1em;">' +
                     '                    <div class="col-12">' +
                     '                        <p class="mb-0 text-muted">No workspace available to show.</p>' +
                     '                    </div>' +
@@ -256,7 +256,7 @@ $(document).on('click', '.add-task-btn', function () {
     tasks++;
 
     $('#task-display').append(
-        '                    <div class="row m-1 mt-3 p-3 pt-0 px-1 bg-white shadow-sm g-3" style="border-radius: 1em;">' +
+        '                    <div class="row m-1 mt-3 p-3 pt-0 px-1 bg-white shadow g-3" style="border-radius: 1em;">' +
         '                        <div class="col-12">' +
         '                            <input type="text" class="form-control p-2 px-3" name="taskName[]"' +
         '                                placeholder="Task name" style="border-radius: 1em;" required>' +

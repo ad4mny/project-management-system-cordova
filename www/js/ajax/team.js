@@ -59,7 +59,7 @@ $(document).ready(function () {
                     }
 
                     $('#member-display').append(
-                        '        <div class="row m-1 p-2 bg-white shadow-sm" style="border-radius: 1em;">' +
+                        '        <div class="row m-1 p-2 bg-white shadow" style="border-radius: 1em;">' +
                         '            <div class="col">' +
                         '                <p class="mb-0 text-capitalize">' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
                         '            </div>' +
@@ -72,7 +72,7 @@ $(document).ready(function () {
                 }
             } else {
                 $('#member-display').append(
-                    '        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">' +
+                    '        <div class="row m-1 py-2 px-3 bg-white shadow" style="border-radius: 1em;">' +
                     '            <div class="col text-center">' +
                     '                <p class="mb-0">No member in the team yet.</p>' +
                     '            </div>' +
@@ -109,7 +109,7 @@ $(document).ready(function () {
                 for (var i = 0; i < data.length; i++) {
 
                     $('#request-container').append(
-                        '        <div class="row m-1 p-2 bg-white shadow-sm" style="border-radius: 1em;">' +
+                        '        <div class="row m-1 p-2 bg-white shadow" style="border-radius: 1em;">' +
                         '            <div class="col">' +
                         '                <p class="mb-0 text-capitalize">' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
                         '            </div>' +
@@ -124,7 +124,7 @@ $(document).ready(function () {
                 }
             } else {
                 $('#request-container').append(
-                    '        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">' +
+                    '        <div class="row m-1 py-2 px-3 bg-white shadow" style="border-radius: 1em;">' +
                     '            <div class="col text-center">' +
                     '                <p class="mb-0">No new member request.</p>' +
                     '            </div>' +
@@ -167,7 +167,7 @@ $(document).on('keyup', '#search-input',
                 ) {
                     for (var i = 0; i < data.length; i++) {
                         $('#search-display').append(
-                            '        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">' +
+                            '        <div class="row m-1 py-2 px-3 bg-white shadow" style="border-radius: 1em;">' +
                             '            <div class="col">' +
                             '                <p class="mb-0 text-capitalize">' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
                             '            </div>' +
@@ -179,7 +179,7 @@ $(document).on('keyup', '#search-input',
                     }
                 } else {
                     $('#search-display').append(
-                        '        <div class="row m-1 py-2 px-3 bg-white shadow-sm" style="border-radius: 1em;">' +
+                        '        <div class="row m-1 py-2 px-3 bg-white shadow" style="border-radius: 1em;">' +
                         '            <div class="col text-center">' +
                         '                <p class="mb-0">No user found.</p>' +
                         '            </div>' +
