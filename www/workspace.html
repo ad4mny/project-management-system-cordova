@@ -23,7 +23,7 @@
 <body>
 
     <!-- Navigation -->
-    <div class="bg-white fixed-bottom d-block d-lg-none d-inline-flex shadow-sm m-3" style="border-radius: 1em;">
+    <div class="bg-white fixed-bottom d-block d-lg-none d-inline-flex shadow m-3" style="border-radius: 1em;">
         <div class="p-2 flex-fill">
             <a class="btn text-info" href="workspace.html">
                 <i class="fas fa-align-left fa-fw fa-lg"></i>
@@ -86,10 +86,10 @@
         <!-- Content -->
         <div class="container mb-5 pb-5">
             <form action="" method="post" id="project-form">
-                <div class="row m-1 p-3 pt-0 bg-white shadow-sm g-3" style="border-radius: 1em;">
+                <div class="row m-1 p-3 pt-0 bg-white shadow g-3" style="border-radius: 1em;">
                     <div class="col-12">
-                        <input type="text" class="form-control p-2 px-3" name="workspaceName" placeholder="Workspace name"
-                            style="border-radius: 1em;" required>
+                        <input type="text" class="form-control p-2 px-3" name="workspaceName"
+                            placeholder="Workspace name" style="border-radius: 1em;" required>
                     </div>
                     <div class="col-12">
                         <textarea class="form-control p-2 px-3" max="150" name="workspaceDesc" rows="6"
@@ -105,8 +105,7 @@
                     </div>
                     <div class="col-12">
                         <small class="text-muted">Team members</small>
-                        <select class="form-select" style="border-radius: 1em;" id="workspace-member-list"
-                            required>
+                        <select class="form-select" style="border-radius: 1em;" id="workspace-member-list" required>
                             <option id="0" value="" disabled selected>Add workspace team members</option>
                         </select>
                     </div>
@@ -146,7 +145,7 @@
 
             </div>
             <div class="row py-3">
-                <div class="col text-center">
+                <div class="col text-center" id="delete-btn">
                     <button class="btn btn-danger delete-btn" style="border-radius: 1em;">Delete Workspace</button>
                 </div>
             </div>

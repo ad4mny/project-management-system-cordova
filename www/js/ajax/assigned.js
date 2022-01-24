@@ -12,7 +12,7 @@ $(document).ready(function () {
             $('#progress-container').show();
         },
         success: function (data) {
-
+console.log(data);
             if (
                 Array.isArray(data) &&
                 data.length > 0
@@ -21,6 +21,7 @@ $(document).ready(function () {
 
                     var assigns = '';
                     var userID = data[i].userID.split(",");
+                    var workspaceID = data[i].workspaceID.split(",");
                     var name = data[i].firstName.split(",");
                     var taskName = data[i].taskName.split(",");
                     var startDate = data[i].startDate.split(",");
@@ -42,7 +43,7 @@ $(document).ready(function () {
                     }
 
                     $('#main-container').append(
-                        '<a href="#" class="text-decoration-none text-reset">' +
+                        '<a href="workspace.html?workspaceid=' + workspaceID[0] + '" class="text-decoration-none text-reset">' +
                         '                <div class="row m-1 py-3 px-1 bg-white shadow-sm" style="border-radius: 1em;">' +
                         '                    <div class="col-12">' +
                         '                        <p class="mb-0">' + taskName[0] + '</p>' +

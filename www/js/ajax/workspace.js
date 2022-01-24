@@ -24,7 +24,7 @@ if (workspaceID != null) {
             $('#progress-container').show();
         },
         success: function (data) {
-
+console.log(data);
             if (
                 Array.isArray(data) &&
                 data.length > 0
@@ -101,6 +101,9 @@ if (workspaceID != null) {
                     );
                 }
 
+                if (token.userID != data[0][0].userID) {
+                    $('#delete-btn').html('');
+                }
             }
 
         },
